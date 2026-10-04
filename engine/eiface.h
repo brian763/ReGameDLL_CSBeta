@@ -34,7 +34,13 @@
 //
 
 
+/* LINUX COMPILE */
+#ifdef _WIN32
 #define DLLEXPORT __stdcall
+#else
+#define DLLEXPORT __attribute__((stdcall))
+#endif
+/* END LINUX COMPILE */
 
 typedef enum
 	{

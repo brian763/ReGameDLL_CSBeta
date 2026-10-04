@@ -19,7 +19,13 @@
 #include "monsterevent.h"
 #endif
 
-#define EXPORT	_declspec( dllexport )
+/* LINUX COMPILE */
+#ifdef _WIN32
+#define EXPORT  _declspec( dllexport )
+#else
+#define EXPORT
+#endif
+/* END LINUX COMPILE */
 
 extern "C" EXPORT int GetEntityAPI( DLL_FUNCTIONS *pFunctionTable, int interfaceVersion );
 
@@ -61,6 +67,14 @@ typedef void (CBaseEntity::*USEPTR)( CBaseEntity *pActivator, CBaseEntity *pCall
 #define CLASS_PLAYER_BIOWEAPON	12 
 #define CLASS_ALIEN_BIOWEAPON	13 
 #define	CLASS_BARNACLE			99 
+
+/* LINUX COMPILE */
+#ifdef _WIN32
+#define EXPORT  _declspec( dllexport )
+#else
+#define EXPORT
+#endif
+/* END LINUX COMPILE */
 
 class CBaseEntity;
 class CBaseMonster;

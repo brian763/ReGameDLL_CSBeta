@@ -1,4 +1,7 @@
 #include "extdll.h"
+/* LINUX COMPILE */
+#include "util.h"
+/* END LINUX COMPILE */
 #include "plane.h"
 
 CPlane::CPlane(void)

@@ -55,9 +55,14 @@ typedef int BOOL;
 		extern void DLLEXPORT MethodName( void )
 #define GLOBAL_METHOD(funcname)					void DLLEXPORT funcname(void)
 
+/* LINUX COMPILE */
 #define LINK_ENTITY_TO_CLASS(mapClassName,DLLClassName) \
-	extern "C" _declspec( dllexport ) void mapClassName( entvars_t *pev ); \
-	void mapClassName( entvars_t *pev ) { GetClassPtr( (DLLClassName *)pev ); }
+        extern "C" EXPORT void mapClassName( entvars_t *pev ); \
+        void mapClassName( entvars_t *pev ) { GetClassPtr( (DLLClassName *)pev ); }
+/* END LINUX COMPILE */
+// #define LINK_ENTITY_TO_CLASS(mapClassName,DLLClassName) \
+// 	extern "C" _declspec( dllexport ) void mapClassName( entvars_t *pev ); \
+// 	void mapClassName( entvars_t *pev ) { GetClassPtr( (DLLClassName *)pev ); }
 
 #ifdef DEBUG
 	extern edict_t *DBG_EntOfVars(const entvars_t *pev);

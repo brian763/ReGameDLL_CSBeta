@@ -1471,16 +1471,48 @@ void CSaveRestoreBuffer::BufferRewind(int size)
     m_pdata->pCurrentData -= size;
     m_pdata->size -= size;
 }
+/* LINUX COMPILE */
+#ifndef _WIN32
+/* Thanks to Mike Harrington for this. */
+extern "C" {
+    unsigned _rotr ( unsigned val, int shift) {
+        register unsigned lobit;         /* non-zero means lo bit set */
+        register unsigned num = val;     /* number to rotate */
 
-unsigned int CSaveRestoreBuffer::HashString(const char* pszToken)
-{
-    unsigned int	hash = 0;
+        shift &= 0x1f;                   /* modulo 32 -- this will also make
+                                           negative shifts work */
 
-    while (*pszToken)
-        hash = _rotr(hash, 4) ^ *pszToken++;
+        while (shift--) {
+                lobit = num & 1;        /* get high bit */
+                num >>= 1;               /* shift right one bit */
+                if (lobit)
+                        num |= 0x80000000;  /* set hi bit if lo bit was set */
+        }
 
-    return hash;
+        return num;
+    }
 }
+#endif
+/* END LINUX COMPILE */
+
+unsigned int CSaveRestoreBuffer :: HashString( const char *pszToken )
+{
+        unsigned int    hash = 0;
+
+        while ( *pszToken )
+                hash = _rotr( hash, 4 ) ^ *pszToken++;
+
+        return hash;
+}
+// unsigned int CSaveRestoreBuffer::HashString(const char* pszToken)
+// {
+//     unsigned int	hash = 0;
+
+//     while (*pszToken)
+//         hash = _rotr(hash, 4) ^ *pszToken++;
+
+//     return hash;
+// }
 
 unsigned short CSaveRestoreBuffer::TokenHash(const char* pszToken)
 {
